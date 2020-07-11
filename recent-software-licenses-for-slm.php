@@ -1,10 +1,10 @@
 <?php  /*
 Plugin Name:        Recent Software Licenses for SLM
-Plugin URI:         https://michaelott.id.au/
+Plugin URI:         https://rocketapps.com.au/
 Description:        Custom dashboard widget to show recent software licenses created.
 Version:            1.0
 Author:             Michael Ott
-Author URI:         https://michaelott.id.au/
+Author URI:         https://rocketapps.com.au/
 */
 
 /* Create Recent Software Licenses dashboard widget */
@@ -19,7 +19,7 @@ function rsl_dashboard_widget_function() {
             }
             .rsl-list strong {
                 display: inline-block;
-                width: 80px;
+                width: 70px;
             }
             #rsl_dashboard_widget .inside {
                 margin: 0;
@@ -46,7 +46,8 @@ function rsl_dashboard_widget_function() {
             ORDER BY id DESC
             LIMIT 10
         ");
-        $log_count = count($lic_items);
+        $log_count   = count($lic_items);
+        $date_format = get_option('date_format');
         foreach ( $lic_items as $log_item ) { 
             $user_email = get_user_by( 'email', $log_item->email );
         ?>
@@ -55,7 +56,7 @@ function rsl_dashboard_widget_function() {
                 <strong>Key:</strong><?php echo $log_item->license_key; ?><br />
                 <strong>Product:</strong><?php echo $log_item->product_ref; ?> (<?php echo $log_item->max_allowed_domains; ?> domain)<br />
                 <strong>Status:</strong><?php echo ucfirst($log_item->lic_status); ?><br />
-                <strong>Date:</strong><?php echo date("l M, d, Y", strtotime($log_item->date_created)); ?>
+                <strong>Date:</strong><?php echo date($date_format, strtotime($log_item->date_created)); ?>
             </p>
         <?php }
 
